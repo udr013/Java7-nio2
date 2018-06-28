@@ -1,4 +1,4 @@
-package com.udr013;
+package com.udr013.path;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,9 @@ public class PathThings {
     public static void main(String[] args) throws IOException {
         //path can refer to a non existing file or directory
         Path path = Paths.get("../../new.txt"); //two folders up
+        System.out.println(path.toString());
         System.out.println(path.toAbsolutePath());
-//        System.out.println(path.getAbsolutePath()); //doesn't exist!!
+//        System.out.println(path.getAbsolutePath()); //doesn't exist!! nosuch method
         // getRoot  returns null for relative path
         System.out.println(path.getRoot()); //null
         System.out.println(path.getParent()); // ../..
