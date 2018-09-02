@@ -1,6 +1,7 @@
 package com.udr013.attributes;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class AttributeViewInterfaces {
 
     public static void main(String[] args) {
-        Path path = Paths.get("newfolder/another/blazing/folder/text.txt");
+        Path path = Paths.get("newfolder/another/blazing/folder/text3.txt");
 
         //FileAttributeView       this is null...
         FileAttributeView fileAttributeView = Files.getFileAttributeView(path, FileAttributeView.class);
@@ -38,6 +39,15 @@ public class AttributeViewInterfaces {
         System.out.println(dosFileAttributeView.name()); //dos
 
         try {
+            System.out.println("size" + dosFileAttributeView.readAttributes().size());
+            DosFileAttributes dosFileAttributes = dosFileAttributeView.readAttributes();
+            Object o = dosFileAttributeView.readAttributes().fileKey();
+            System.out.println(o.toString());
+            System.out.println(dosFileAttributes.isArchive());
+            System.out.println(dosFileAttributes.isHidden());
+            System.out.println(dosFileAttributes.isReadOnly());
+            System.out.println(dosFileAttributes.isSystem());
+//            for(String s : dosFileAttributeView.readAttributes().fileKey())
             //all are void
             dosFileAttributeView.setArchive(true);
             dosFileAttributeView.setHidden(false);
@@ -104,8 +114,16 @@ public class AttributeViewInterfaces {
 
         //UserDefinedFileAttributeView
         UserDefinedFileAttributeView userDefinedFileAttributeView = Files.getFileAttributeView(path, UserDefinedFileAttributeView.class);
-        System.out.println(userDefinedFileAttributeView.name()); // user
-
+        System.out.println(userDefinedFileAttributeView.name()); // users
+        try {
+            userDefinedFileAttributeView.write("blabla", Charset.defaultCharset().encode("true"));
+            List<String> list = userDefinedFileAttributeView.list();
+            for (String l : list) {
+                System.out.println(" list" + l); //DOSATTRIB
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         //AclFileAttributeView this only works on windows OS
         AclFileAttributeView aclFileAttributeView = Files.getFileAttributeView(path, AclFileAttributeView.class);
